@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echelon Risk + Cyber — Recruiting Playbook · The Launch Box</title>
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:   #0B1829;
+    --navy2:  #112236;
+    --blue:   #1A6FE8;
+    --blue2:  #2080FF;
+    --teal:   #00C2B8;
+    --gold:   #F5A623;
+    --red:    #E84545;
+    --green:  #22C55E;
+    --light:  #F0F4FA;
+    --muted:  #6B7A99;
+    --border: #D6DFF0;
+    --white:  #FFFFFF;
+    --text:   #1C2B45;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(11,24,41,.10);
+  }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text); background: var(--light); line-height: 1.65; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 9pt; line-height: 1.4; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* Compact hero */
+    .hero { padding: 20px 24px 18px !important; }
+    .hero h1 { font-size: 1.5rem !important; margin-bottom: 4px !important; }
+    .hero-sub { margin-bottom: 12px !important; font-size: .78rem !important; }
+    .hero-meta { margin-bottom: 18px !important; gap: 6px !important; }
+    .hero-badge { font-size: .65rem !important; padding: 2px 9px !important; }
+    /* Compact process bar */
+    .process-flow { gap: 0 !important; }
+    .process-step { padding: 8px 6px !important; }
+    .step-num { width: 20px !important; height: 20px !important; font-size: .6rem !important; margin-bottom: 4px !important; }
+    .step-title { font-size: .66rem !important; }
+    .step-owner { font-size: .55rem !important; }
+    .step-sla { font-size: .55rem !important; padding: 1px 5px !important; }
+    /* Compact sections */
+    section { padding: 14px 24px !important; break-inside: avoid; }
+    h2 { font-size: 1rem !important; margin-bottom: 3px !important; }
+    .section-intro { margin-bottom: 10px !important; font-size: .76rem !important; }
+    /* SLA banner */
+    .sla-banner { padding: 16px 20px !important; gap: 16px !important; }
+    .sla-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+    .sla-card { padding: 8px 10px !important; }
+    .sla-card-metric { font-size: 1.1rem !important; }
+    .sla-card-label { font-size: .65rem !important; }
+    .sla-card-owner { font-size: .58rem !important; }
+    /* Stage cards */
+    .stage-card { padding: 10px 0 !important; gap: 0 12px !important; grid-template-columns: 44px 1fr auto !important; }
+    .stage-num-big { font-size: 1.3rem !important; }
+    .stage-body h3 { font-size: .82rem !important; }
+    .stage-body ul li { font-size: .76rem !important; margin-bottom: 2px !important; }
+    .owner-tag { font-size: .6rem !important; padding: 1px 7px !important; margin-bottom: 5px !important; }
+    .stage-sla-badge { min-width: 72px !important; padding: 5px 8px !important; }
+    .stage-sla-badge .val { font-size: .82rem !important; }
+    .stage-sla-badge .lbl { font-size: .52rem !important; }
+    /* Guardrails — 3 col */
+    .guardrail-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+    .guardrail-card { padding: 10px !important; gap: 8px !important; }
+    .guardrail-icon { width: 26px !important; height: 26px !important; font-size: .78rem !important; }
+    .guardrail-card h4 { font-size: .76rem !important; }
+    .guardrail-card p { font-size: .7rem !important; }
+    /* Screening — 3 col */
+    .screen-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+    .screen-card { padding: 10px 12px !important; }
+    .screen-card h4 { font-size: .76rem !important; }
+    .screen-card p { font-size: .7rem !important; }
+    /* Career paths */
+    .career-grid { gap: 8px !important; }
+    .career-card { padding: 12px !important; }
+    .career-card h4 { font-size: .76rem !important; }
+    .career-card p { font-size: .7rem !important; }
+    /* Metrics — 4 col */
+    .metrics-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; }
+    .metric-card { padding: 10px 12px !important; }
+    .metric-val { font-size: 1.4rem !important; }
+    .metric-label { font-size: .66rem !important; }
+    /* Table */
+    td { padding: 8px 10px !important; font-size: .75rem !important; }
+    thead th { padding: 7px 10px !important; font-size: .6rem !important; }
+    /* Referral */
+    footer { padding: 14px !important; font-size: .68rem !important; }
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 56px 0; }
+  section:nth-child(even) { background: white; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #0D2847 60%, #102A50 100%);
+    color: white;
+    padding: 64px 0 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(26,111,232,.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -60px; left: -60px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(0,194,184,.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-eyebrow {
+    font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--teal); font-weight: 600; margin-bottom: 12px;
+  }
+  .hero h1 { font-size: 2.6rem; font-weight: 800; line-height: 1.15; margin-bottom: 8px; }
+  .hero h1 span { color: var(--teal); }
+  .hero-sub { font-size: 1rem; color: rgba(255,255,255,.65); margin-bottom: 36px; max-width: 560px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+  .hero-badge {
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 100px; padding: 5px 14px; font-size: .78rem; color: rgba(255,255,255,.8);
+    font-weight: 500;
+  }
+
+  /* ── 5-SECOND PROCESS ── */
+  .process-hero-label {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(255,255,255,.4); margin-bottom: 16px; font-weight: 600;
+  }
+  .process-flow {
+    display: flex; align-items: stretch; gap: 0; position: relative; z-index: 1;
+  }
+  .process-step {
+    flex: 1; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 0; padding: 18px 14px 16px; text-align: center; position: relative;
+    transition: background .2s;
+  }
+  .process-step:first-child { border-radius: 12px 0 0 12px; }
+  .process-step:last-child  { border-radius: 0 12px 12px 0; }
+  .process-step + .process-step::before {
+    content: '→';
+    position: absolute; left: -14px; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,.3); font-size: 1rem; z-index: 2;
+    background: transparent; line-height: 1;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--blue); color: white; font-size: .75rem; font-weight: 700;
+    margin: 0 auto 8px;
+  }
+  .step-title { font-size: .82rem; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.25; }
+  .step-owner { font-size: .68rem; color: rgba(255,255,255,.45); }
+  .step-sla {
+    margin-top: 6px; display: inline-block;
+    background: rgba(245,166,35,.2); border: 1px solid rgba(245,166,35,.4);
+    border-radius: 100px; padding: 2px 7px; font-size: .62rem; font-weight: 700;
+    color: var(--gold); letter-spacing: .04em;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--blue); font-weight: 700; margin-bottom: 8px;
+  }
+  h2 { font-size: 1.65rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  h2 em { font-style: normal; color: var(--blue); }
+  .section-intro { color: var(--muted); max-width: 620px; margin-bottom: 32px; font-size: .93rem; }
+
+  /* ── SLA BANNER ── */
+  .sla-banner {
+    background: linear-gradient(135deg, #0B1829 0%, #112A4A 100%);
+    border-radius: var(--radius); padding: 36px 40px; color: white;
+    display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    border: 1px solid rgba(26,111,232,.25);
+  }
+  .sla-banner-label {
+    font-size: .68rem; text-transform: uppercase; letter-spacing: .2em;
+    color: var(--teal); font-weight: 700; margin-bottom: 4px;
+  }
+  .sla-banner-title { font-size: 1.15rem; font-weight: 800; }
+  .sla-banner-sub { font-size: .82rem; color: rgba(255,255,255,.55); margin-top: 2px; }
+  .sla-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; flex: 1; }
+  .sla-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .sla-card-metric { font-size: 1.6rem; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 4px; }
+  .sla-card-metric.warn { color: var(--gold); }
+  .sla-card-metric.red  { color: var(--red); }
+  .sla-card-label { font-size: .75rem; color: rgba(255,255,255,.55); line-height: 1.35; }
+  .sla-card-owner { font-size: .67rem; color: rgba(255,255,255,.3); margin-top: 4px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+
+  /* ── STAGE CARDS ── */
+  .stages { display: flex; flex-direction: column; gap: 0; }
+  .stage-card {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 0 20px; align-items: start;
+    padding: 24px 0; border-bottom: 1px solid var(--border);
+  }
+  .stage-card:last-child { border-bottom: none; }
+  .stage-num-big {
+    font-size: 2rem; font-weight: 900; color: var(--border);
+    line-height: 1; padding-top: 2px; text-align: center;
+    letter-spacing: -.04em;
+  }
+  .stage-body h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .stage-body .owner-tag {
+    display: inline-block; background: var(--light); border: 1px solid var(--border);
+    border-radius: 100px; padding: 2px 10px; font-size: .7rem; color: var(--muted);
+    font-weight: 600; margin-bottom: 10px;
+  }
+  .stage-body ul { padding-left: 18px; }
+  .stage-body ul li { font-size: .88rem; color: var(--text); margin-bottom: 4px; }
+  .stage-sla-badge {
+    background: #FFF7E6; border: 1.5px solid var(--gold); border-radius: 8px;
+    padding: 8px 14px; text-align: center; min-width: 100px; flex-shrink: 0;
+  }
+  .stage-sla-badge .val { font-size: 1.1rem; font-weight: 800; color: var(--gold); }
+  .stage-sla-badge .lbl { font-size: .62rem; color: #9A6200; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .no-sla { min-width: 100px; }
+
+  /* ── SERVICE LINE TABLE ── */
+  .table-wrap { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--navy); }
+  thead th { color: white; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 12px 16px; text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--light); }
+  td { padding: 13px 16px; font-size: .84rem; vertical-align: top; }
+  td:first-child { font-weight: 700; color: var(--navy); }
+  .dm-chip {
+    display: inline-block; background: var(--light); border: 1px solid var(--border);
+    border-radius: 6px; padding: 2px 8px; font-size: .72rem; color: var(--muted);
+    font-weight: 600; margin: 1px;
+  }
+  .auth-chip {
+    display: inline-block; background: #EBF3FF; border: 1px solid #C2D9FF;
+    border-radius: 6px; padding: 2px 8px; font-size: .72rem; color: var(--blue);
+    font-weight: 700; margin: 1px;
+  }
+
+  /* ── GUARDRAILS ── */
+  .guardrail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 14px; }
+  .guardrail-card {
+    background: white; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; display: flex; gap: 14px; align-items: flex-start;
+    box-shadow: var(--shadow);
+  }
+  .guardrail-icon {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .guardrail-icon.stop { background: #FFEAEA; }
+  .guardrail-icon.warn { background: #FFF4DC; }
+  .guardrail-icon.check { background: #E6FAF0; }
+  .guardrail-icon.info { background: #EBF3FF; }
+  .guardrail-card h4 { font-size: .88rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .guardrail-card p { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── SCREENING CRITERIA ── */
+  .screen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 14px; }
+  .screen-card {
+    background: white; border: 1px solid var(--border); border-left: 3px solid var(--blue);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .screen-card h4 { font-size: .85rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .screen-card p { font-size: .79rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── METRICS TABLE ── */
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; }
+  .metric-card {
+    background: white; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 22px; box-shadow: var(--shadow); text-align: center;
+  }
+  .metric-val { font-size: 2rem; font-weight: 900; color: var(--navy); line-height: 1; }
+  .metric-val.good { color: var(--green); }
+  .metric-val.bad  { color: var(--red); }
+  .metric-val.gold { color: var(--gold); }
+  .metric-label { font-size: .78rem; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+  .metric-owner { font-size: .68rem; color: var(--border); text-transform: uppercase; letter-spacing: .07em; margin-top: 4px; font-weight: 700; }
+
+  /* ── CAREER PATH ── */
+  .career-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .career-card {
+    border-radius: var(--radius); padding: 22px 20px;
+    border: 1px solid var(--border); box-shadow: var(--shadow);
+  }
+  .career-card.consulting { background: #EBF3FF; border-color: #C2D9FF; }
+  .career-card.technical  { background: #E6FAF0; border-color: #A8E8C8; }
+  .career-card.partner    { background: #FFF4DC; border-color: #F5D58A; }
+  .career-card h4 { font-size: .88rem; font-weight: 800; margin-bottom: 4px; }
+  .career-card.consulting h4 { color: var(--blue); }
+  .career-card.technical h4  { color: #15803D; }
+  .career-card.partner h4    { color: #9A6200; }
+  .career-card .range { font-size: .78rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .career-card p { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy); color: rgba(255,255,255,.45);
+    padding: 32px 0; font-size: .78rem; text-align: center;
+  }
+  .footer strong { color: rgba(255,255,255,.7); }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 100;
+    background: var(--blue); color: white; border: none; border-radius: 100px;
+    padding: 12px 24px; font-size: .85rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(26,111,232,.5); display: flex; align-items: center; gap: 8px;
+    transition: background .2s, transform .1s;
+  }
+  .print-btn:hover { background: var(--blue2); transform: translateY(-1px); }
+
+  /* ── NAV ── */
+  .nav {
+    background: white; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 1px 8px rgba(11,24,41,.06);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 0; max-width: 960px;
+    margin: 0 auto; padding: 0 24px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-inner a {
+    padding: 14px 16px; font-size: .78rem; font-weight: 600; color: var(--muted);
+    text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .nav-inner a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    .process-flow { flex-direction: column; gap: 4px; }
+    .process-step { border-radius: 8px !important; }
+    .process-step + .process-step::before { display: none; }
+    .career-grid { grid-template-columns: 1fr; }
+    .stage-card { grid-template-columns: 48px 1fr; }
+    .stage-sla-badge { display: none; }
+    .sla-banner { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">
+  ⬇ Save as PDF
+</button>
+
+<!-- NAV -->
+<nav class="nav no-print">
+  <div class="nav-inner">
+    <a href="#process">Process</a>
+    <a href="#slas">SLAs</a>
+    <a href="#routing">Service Lines</a>
+    <a href="#stages">Stage Detail</a>
+    <a href="#screening">Screening</a>
+    <a href="#guardrails">Guardrails</a>
+    <a href="#careers">Career Paths</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#internship">Internship</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- HERO                                               -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">The Launch Box · Talent Acquisition Partnership</div>
+    <h1>Recruiting Playbook for<br><span>Echelon Risk + Cyber</span></h1>
+    <p class="hero-sub">Cybersecurity &amp; Risk Consulting · ~60 Headcount · 5 Service Lines · 8 Decision-Makers<br>Prepared by The Launch Box · Version 2.1 · July 2026</p>
+    <div class="hero-meta">
+      <span class="hero-badge">📍 ~40 USA / 20 MX</span>
+      <span class="hero-badge">🛡 MSSP · vCISO · OffSec · DefSec · GRC</span>
+      <span class="hero-badge">🗂 ApplicantPro ATS</span>
+      <span class="hero-badge">⏱ 30-Day Fill Target</span>
+    </div>
+
+    <div id="process">
+      <div class="process-hero-label">The Hiring Process — At a Glance</div>
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Source &amp; Qualify</div>
+          <div class="step-owner">Recruiter</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-title">Screen &amp; Score</div>
+          <div class="step-owner">Recruiter + TA Lead</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Practice DM Review</div>
+          <div class="step-owner">Practice DM</div>
+          <div class="step-sla">≤72h SLA</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Interview &amp; Decide</div>
+          <div class="step-owner">Practice DM + Dan/Eric</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">5</div>
+          <div class="step-title">Offer</div>
+          <div class="step-owner">Carolina (TLB) drafts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLA BANNER                                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="slas" style="background: var(--navy2); padding: 48px 0;">
+  <div class="container">
+    <div class="sla-banner">
+      <div style="flex-shrink:0; min-width:160px;">
+        <div class="sla-banner-label">Committed SLAs</div>
+        <div class="sla-banner-title">What we hold<br>each other to</div>
+        <div class="sla-banner-sub">These are the agreed response and delivery windows.<br>Breaches are flagged in the weekly sync.</div>
+      </div>
+      <div class="sla-grid">
+        <div class="sla-card">
+          <div class="sla-card-metric">30 days</div>
+          <div class="sla-card-label">Target time-to-fill from role open to accepted offer</div>
+          <div class="sla-card-owner">TA Lead</div>
+        </div>
+        <div class="sla-card">
+          <div class="sla-card-metric warn">≤72 hrs</div>
+          <div class="sla-card-label">Practice DM must advance or pass a candidate submission</div>
+          <div class="sla-card-owner">Practice DM</div>
+        </div>
+        <div class="sla-card">
+          <div class="sla-card-metric warn">48 hrs</div>
+          <div class="sla-card-label">Kickoff meeting scheduled after role approval notification</div>
+          <div class="sla-card-owner">TA Lead</div>
+        </div>
+        <div class="sla-card">
+          <div class="sla-card-metric">100%</div>
+          <div class="sla-card-label">First-attempt routing accuracy to correct service line DM</div>
+          <div class="sla-card-owner">TA Lead</div>
+        </div>
+        <div class="sla-card">
+          <div class="sla-card-metric warn">5 days</div>
+          <div class="sla-card-label">Offer letter drafted &amp; sent after verbal acceptance</div>
+          <div class="sla-card-owner">Carolina (TLB)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SERVICE LINE ROUTING                               -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="routing">
+  <div class="container">
+    <div class="section-label">Service Lines</div>
+    <h2>Who Owns Each <em>Hiring Decision</em></h2>
+    <p class="section-intro">Before submitting any candidate, confirm the service line and route to the correct DM. Wrong routing wastes time and erodes trust.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service Line</th>
+            <th>Typical Roles</th>
+            <th>Review / Submit To</th>
+            <th>Final Authority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Risk Advisory + GRC</td>
+            <td>GRC / Risk Advisory Consultant</td>
+            <td>
+              <span class="dm-chip">Josh Fleming</span>
+              <span class="dm-chip">Steve Dyson</span>
+              <span class="dm-chip">Alyson Pisarcik</span>
+              <span class="dm-chip">Kelsey Cunningham</span>
+            </td>
+            <td><span class="auth-chip">Team Consensus</span></td>
+          </tr>
+          <tr>
+            <td>Offensive Security + Adversary Sim</td>
+            <td>Offensive Security Engineer</td>
+            <td>
+              <span class="dm-chip">Matt Donato</span>
+              <span class="dm-chip">Steve Snider</span>
+            </td>
+            <td><span class="auth-chip">Matt Donato</span></td>
+          </tr>
+          <tr>
+            <td>vCISO / STaaS</td>
+            <td>vCISO</td>
+            <td><span class="dm-chip">Paul Interval</span></td>
+            <td><span class="auth-chip">Paul Interval</span></td>
+          </tr>
+          <tr>
+            <td>Managed Security Services (MSSP)</td>
+            <td>SOC Engineer / Security Engineer</td>
+            <td><span class="dm-chip">Paul Interval</span></td>
+            <td><span class="auth-chip">Paul Interval</span></td>
+          </tr>
+          <tr>
+            <td>Defensive Security + Hardening</td>
+            <td>DefSec / CrowdStrike / M365 Security</td>
+            <td><span class="dm-chip">Paul Matvey</span></td>
+            <td><span class="auth-chip">Paul Interval</span> <span style="font-size:.75rem;color:var(--muted)">— loop early</span></td>
+          </tr>
+          <tr>
+            <td>Sales / Channel</td>
+            <td>Account Executive / AE / Channel Partner</td>
+            <td><span class="dm-chip">Chris Callahan</span></td>
+            <td><span class="auth-chip">Chris Callahan</span></td>
+          </tr>
+          <tr>
+            <td>Marketing / Marketing Ops</td>
+            <td>Marketing roles (incl. MX)</td>
+            <td><span class="dm-chip">Marissa Salzone</span></td>
+            <td><span class="auth-chip">Marissa Salzone</span></td>
+          </tr>
+          <tr style="background:#FFFAF0;">
+            <td>Unclear / Unrouted</td>
+            <td>Any role without a clear practice fit</td>
+            <td><span class="dm-chip">Dan Desko</span></td>
+            <td><span class="auth-chip">Dan Desko</span> <span style="font-size:.75rem;color:var(--muted)">→ redirects</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STAGE DETAIL                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="stages" class="page-break">
+  <div class="container">
+    <div class="section-label">Detailed Process</div>
+    <h2>Stage-by-Stage <em>Breakdown</em></h2>
+    <p class="section-intro">Every stage has a clear owner, actions, and SLA where applicable. Nothing moves forward without the prior stage being complete.</p>
+    <div class="stages">
+
+      <div class="stage-card">
+        <div class="stage-num-big">01</div>
+        <div class="stage-body">
+          <h3>Sourcing &amp; Initial Qualification</h3>
+          <span class="owner-tag">Owner: Recruiter</span>
+          <ul>
+            <li>Identify candidates via LinkedIn, ATS, direct outreach, known network, and competitor poaching.</li>
+            <li>Scan for hands-on incident response, consulting ability, and MSSP background — look past the traditional resume.</li>
+            <li>Certifications required <em>only</em> if tied to a specific partner (e.g. CrowdStrike). Do not filter on certs otherwise.</li>
+            <li>Confirm specialization → begin outreach → schedule screen. Log specialization and cert badge URL in candidate database.</li>
+          </ul>
+        </div>
+        <div class="no-sla"></div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-num-big">02</div>
+        <div class="stage-body">
+          <h3>Screen, Evaluation &amp; Routing</h3>
+          <span class="owner-tag">Owner: Recruiter → TA Lead</span>
+          <ul>
+            <li>Screen call: hands-on depth, role fit, compensation alignment.</li>
+            <li>Complete scorecard (specialization + depth of experience). Assign grade: A / B / C.</li>
+            <li>TA Lead reviews A/B scorecards and routes to the correct Practice DM.</li>
+            <li>For MX candidates: confirm professional English fluency at screen.</li>
+          </ul>
+        </div>
+        <div class="no-sla"></div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-num-big">03</div>
+        <div class="stage-body">
+          <h3>Practice DM Review</h3>
+          <span class="owner-tag">Owner: Practice DM</span>
+          <ul>
+            <li>DM reviews the full submission package (scorecard, resume, and screen notes).</li>
+            <li>Must respond within SLA window: advance to interview or pass with documented notes.</li>
+            <li>Escalate to Dan/Eric only when the role-specific DM requires it.</li>
+          </ul>
+        </div>
+        <div class="stage-sla-badge">
+          <div class="val">≤72h</div>
+          <div class="lbl">DM Response<br>SLA</div>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-num-big">04</div>
+        <div class="stage-body">
+          <h3>Interview &amp; Final Decision</h3>
+          <span class="owner-tag">Owner: Practice DM + Dan/Eric (role-dependent)</span>
+          <ul>
+            <li>No interview panels — interviews are 1:1 or small-group, not committee-style.</li>
+            <li>Dan/Eric provide final offer sign-off for most roles (Dan = CEO, final word).</li>
+            <li>Eric Bronack (COO) provides secondary oversight — not the initial submission contact.</li>
+          </ul>
+        </div>
+        <div class="no-sla"></div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-num-big">05</div>
+        <div class="stage-body">
+          <h3>Offer</h3>
+          <span class="owner-tag">Owner: Carolina (TLB) drafts · Echelon Leadership approves &amp; sends</span>
+          <ul>
+            <li>TA provides candidate information only — TA does not draft the offer.</li>
+            <li>Carolina (TLB) drafts the offer letter against established salary ranges on file.</li>
+            <li>Dan/Eric review, approve, and send directly to candidate.</li>
+            <li>Echelon has pre-established salary ranges per role — the only TLB client with this in place. Reference these at kickoff; flag senior roles where flexibility may apply.</li>
+          </ul>
+        </div>
+        <div class="stage-sla-badge">
+          <div class="val">5 days</div>
+          <div class="lbl">Offer Out<br>After Verbal</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREENING CRITERIA                                 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="screening">
+  <div class="container">
+    <div class="section-label">What to Screen For</div>
+    <h2>Evaluation <em>Criteria</em></h2>
+    <p class="section-intro">Echelon roles are niche and deep. Standard resume scans miss the mark — here's what actually matters.</p>
+    <div class="screen-grid">
+      <div class="screen-card">
+        <h4>Frameworks: NIST, GDPR, ISO</h4>
+        <p>Standard at Consultant level and above. Screen for hands-on application, not familiarity — ask for specific project examples involving these frameworks.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Core Values Fit</h4>
+        <p>"Turning Pro" and "Client Centricity" are Echelon's core values. Candidates must demonstrate ownership, follow-through, and a client-first mindset. Those who can't speak to this are a cultural flag.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Technical vs. Partner Track</h4>
+        <p>Identify early — not every senior candidate wants to manage people. Mis-routing a strong IC into a management track is a retention risk. Ask directly during the screen.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Director+ Business Development</h4>
+        <p>$3M–$5M sales targets are real expectations at Director and Partner level. Screen for pipeline ownership, account expansion history, and BD comfort — not just delivery.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Personal Brand (Consultant+)</h4>
+        <p>LinkedIn activity, thought leadership, and professional networking are expected from Consultant level up. Candidates invisible online may not fit Echelon's culture.</p>
+      </div>
+      <div class="screen-card">
+        <h4>MX English Fluency</h4>
+        <p>Most client-facing Echelon roles require professional English even for MX-based placements. Confirm fluency level explicitly at screen — don't assume.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- GUARDRAILS                                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="guardrails" class="page-break">
+  <div class="container">
+    <div class="section-label">Rules of Engagement</div>
+    <h2>Key <em>Guardrails</em></h2>
+    <p class="section-intro">These are non-negotiables. Deviating from any of these creates rework, erodes trust, or violates process.</p>
+    <div class="guardrail-grid">
+      <div class="guardrail-card">
+        <div class="guardrail-icon stop">🚫</div>
+        <div>
+          <h4>Never source before kickoff</h4>
+          <p>Do not begin sourcing before the kickoff meeting is complete — even for roles that feel urgent or familiar.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon stop">🚫</div>
+        <div>
+          <h4>No ATS req without headcount approval</h4>
+          <p>Never open a requisition in ApplicantPro without confirmed headcount approval from Dan/Eric/Ethan (TLB) or the Practice DM.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon warn">⚠️</div>
+        <div>
+          <h4>Certifications are the exception</h4>
+          <p>Only roles tied to specific partnerships (e.g. CrowdStrike) require a verified cert. A missing certification is not grounds to archive a candidate.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon info">🗂</div>
+        <div>
+          <h4>Track every role separately</h4>
+          <p>With multiple service lines open simultaneously, the Pipeline Tracker must be updated per role, per DM. Nothing gets lumped together.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon warn">⚠️</div>
+        <div>
+          <h4>Confirm routing before submitting</h4>
+          <p>Always confirm the service line before routing. Submitting a Risk Advisory candidate to the Security team wastes time and erodes trust with the DM.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon stop">🚫</div>
+        <div>
+          <h4>TA does not draft offer letters</h4>
+          <p>Carolina (TLB) drafts. TA provides candidate info only. Dan/Eric review, approve, and send.</p>
+        </div>
+      </div>
+      <div class="guardrail-card">
+        <div class="guardrail-icon info">🧭</div>
+        <div>
+          <h4>Don't over-burden Dan Desko</h4>
+          <p>Dan sees the most roles but is not the default submission contact. Route to the service-line DM first; escalate to Dan only when required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- CAREER PATHS                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="careers">
+  <div class="container">
+    <div class="section-label">Internal Mobility</div>
+    <h2>Echelon <em>Career Paths</em></h2>
+    <p class="section-intro">Identify which track a senior candidate actually wants <em>during the screen</em>. Mis-routing a strong IC into management is a retention risk.</p>
+    <div class="career-grid">
+      <div class="career-card consulting">
+        <h4>Consulting Track</h4>
+        <div class="range">Intern → Senior Consultant</div>
+        <p>Client-facing delivery. 80% down to 70% utilization targets. The entry and mid-career path for most hires.</p>
+      </div>
+      <div class="career-card technical">
+        <h4>Technical / IC Track</h4>
+        <div class="range">Principal Consultant → Technical Director</div>
+        <p>Deep expertise, no people management. Up to $3.5M in managed revenue at the top of the track.</p>
+      </div>
+      <div class="career-card partner">
+        <h4>Partner / Leader Track</h4>
+        <div class="range">Manager → Partner</div>
+        <p>Business-development driven. Director and Partner carry real $3M–$5M sales targets. Must show BD history at screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- METRICS                                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="metrics">
+  <div class="container">
+    <div class="section-label">Performance Metrics</div>
+    <h2>What We <em>Measure</em></h2>
+    <p class="section-intro">These are the numbers that define recruiting health. Current baseline vs. target tracked weekly.</p>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-val bad">68.4</div>
+        <div class="metric-label">Days — current avg. time-to-fill<br><strong style="color:var(--green)">Target: 30 days</strong></div>
+        <div class="metric-owner">TA Lead</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val gold">≤72h</div>
+        <div class="metric-label">Practice DM response SLA<br><strong style="color:var(--muted)">Baseline: TBD</strong></div>
+        <div class="metric-owner">Practice DM</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val gold">TBD</div>
+        <div class="metric-label">% of submissions routed to correct DM on first attempt<br><strong style="color:var(--muted)">Target: 100%</strong></div>
+        <div class="metric-owner">TA Lead</div>
+      </div>
+    </div>
+    <div style="margin-top:20px; padding:16px 20px; background:white; border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:0 var(--radius) var(--radius) 0; font-size:.83rem; color:var(--muted);">
+      <strong style="color:var(--navy);">📊 Baseline confirmation pending.</strong> Current time-to-fill of 68.4 days vs. 30-day target is the #1 metric to close. DM response SLA compliance data collection begins at playbook launch. All metrics reviewed in weekly TA sync.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- REFERRAL PROGRAM                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Referrals</div>
+    <h2>Referral <em>Program</em></h2>
+    <p class="section-intro">Employees can earn bonuses for referring qualified candidates through TLB's referral process.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px;">
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--blue);font-weight:700;margin-bottom:6px;">Internal Echelon Hire</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--navy);margin-bottom:6px;">$1,000</div>
+        <p style="font-size:.82rem;color:var(--muted);">$500 paid on hire + $500 on the referred employee's 6-month anniversary. Applies to Echelon employees referring hires for Echelon roles.</p>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--blue);font-weight:700;margin-bottom:6px;">TLB Portfolio Hire</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--navy);margin-bottom:6px;">$500</div>
+        <p style="font-size:.82rem;color:var(--muted);">Employees who refer a qualified hire for any firm in the TLB portfolio. Referral must apply via the TLB website using the biweekly emailed link tied to your account.</p>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--blue);font-weight:700;margin-bottom:6px;">How to Submit a Referral</div>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:4px;">Email <strong>careers@echeloncyber.com</strong> with: candidate name, position, firm, brief fit summary, and English resume.<br><br>Subject line: <strong>[Position] + [Firm Name]</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- INTERNSHIP PROGRAM                                 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="internship">
+  <div class="container">
+    <div class="section-label">Pipeline Development</div>
+    <h2>Internship <em>Program 2026</em></h2>
+    <p class="section-intro">A 6-month rotational program across Echelon's cybersecurity practices — starting May 2026. Every intern is mentor-paired for the full duration. Goal: build a pipeline into full-time Associate roles at graduation.</p>
+
+    <!-- Stats bar -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;">
+      <div style="background:var(--navy);color:white;border-radius:var(--radius);padding:18px 20px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:900;color:var(--teal);">6 mo</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:4px;">Program Duration</div>
+      </div>
+      <div style="background:var(--navy);color:white;border-radius:var(--radius);padding:18px 20px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:900;color:var(--teal);">May '26</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:4px;">Target Start Date</div>
+      </div>
+      <div style="background:var(--navy);color:white;border-radius:var(--radius);padding:18px 20px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:900;color:var(--gold);">≥50%</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:4px;">Mexico Intern Target</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+
+      <!-- Left col -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- Practices -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:10px;">Rotating Practices</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:#EBF3FF;border:1px solid #C2D9FF;border-radius:6px;padding:4px 12px;font-size:.78rem;font-weight:700;color:var(--blue);">Defensive Security</span>
+            <span style="background:#EBF3FF;border:1px solid #C2D9FF;border-radius:6px;padding:4px 12px;font-size:.78rem;font-weight:700;color:var(--blue);">Risk Advisory</span>
+            <span style="background:#EBF3FF;border:1px solid #C2D9FF;border-radius:6px;padding:4px 12px;font-size:.78rem;font-weight:700;color:var(--blue);">vCISO</span>
+            <span style="background:#EBF3FF;border:1px solid #C2D9FF;border-radius:6px;padding:4px 12px;font-size:.78rem;font-weight:700;color:var(--blue);">Offensive Security</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:12px;">Strong performers can convert to full-time by end of FY26 Q4, pending completion, positive reviews, and open headcount.</p>
+        </div>
+
+        <!-- Candidate requirements -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:10px;">Candidate Requirements</div>
+          <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px;">
+            <li style="font-size:.83rem;color:var(--text);">Enrolled in an accredited cybersecurity-related program</li>
+            <li style="font-size:.83rem;color:var(--text);">Available 20–25 hrs/week during the school year; more flexibility in summer</li>
+            <li style="font-size:.83rem;color:var(--text);">Screen for: culture fit, passion for cybersecurity, and demonstrated commitment</li>
+          </ul>
+        </div>
+
+        <!-- Target universities -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:10px;">Target Universities</div>
+          <div style="margin-bottom:8px;">
+            <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:6px;">🇲🇽 Mexico (Priority)</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:4px;">
+              <li style="font-size:.8rem;color:var(--text);">ITESO — Instituto Tecnológico y de Estudios Superiores de Occidente</li>
+              <li style="font-size:.8rem;color:var(--text);">Tecnológico de Monterrey</li>
+              <li style="font-size:.8rem;color:var(--text);">Universidad Iberoamericana</li>
+              <li style="font-size:.8rem;color:var(--text);">CUCEI — Centro Universitario de Ciencias Exactas e Ingenierías</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:6px;">🇺🇸 United States</div>
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:4px;">
+              <li style="font-size:.8rem;color:var(--text);">Thomas College — Maine <span style="color:var(--muted)">(contact: Matt D.)</span></li>
+              <li style="font-size:.8rem;color:var(--text);">Duquesne University — Pittsburgh <span style="color:var(--muted)">(contact: Dan)</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right col -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- Recruitment process -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:12px;">Recruitment Process</div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+              <div style="font-size:.82rem;color:var(--text);">Job posting — LinkedIn, university sites, Echelon site &amp; marketing</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+              <div style="font-size:.82rem;color:var(--text);">Application &amp; resume review — TA with mentor team support</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+              <div style="font-size:.82rem;color:var(--text);">TA screening call</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">4</div>
+              <div style="font-size:.82rem;color:var(--text);">1st interview — conducted by mentor team</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:rgba(26,111,232,.3);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">5</div>
+              <div style="font-size:.82rem;color:var(--text);"><em style="font-style:normal;color:var(--muted);">(Optional)</em> Cybersecurity challenge — async via email. Evaluated on accuracy, documentation, and creativity. Challenge differs for OffSec vs. other practices.</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">6</div>
+              <div style="font-size:.82rem;color:var(--text);">Final interview — with Practice Leads to review challenge and confirm fit</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--teal);color:var(--navy);font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">7</div>
+              <div style="font-size:.82rem;color:var(--text);">Offer letter sent</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:12px;">Program Timeline</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:var(--light);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.65rem;font-weight:700;color:var(--muted);white-space:nowrap;">Q1</span>
+              <span style="font-size:.82rem;color:var(--text);">Finalize job description, confirm interview plan, post role</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:var(--light);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.65rem;font-weight:700;color:var(--muted);white-space:nowrap;">Q1</span>
+              <span style="font-size:.82rem;color:var(--text);">Interview and hire for Q2 start (ideal start = May for onboarding time)</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#FFF4DC;border:1px solid #F5D58A;border-radius:4px;padding:1px 7px;font-size:.65rem;font-weight:700;color:#9A6200;white-space:nowrap;">Q4</span>
+              <span style="font-size:.82rem;color:var(--text);">Extend full-time offer — pending successful completion, positive reviews, and open headcount</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#E6FAF0;border:1px solid #A8E8C8;border-radius:4px;padding:1px 7px;font-size:.65rem;font-weight:700;color:#15803D;white-space:nowrap;">FY27 Q1</span>
+              <span style="font-size:.82rem;color:var(--text);">Intern begins full-time as Associate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluation -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+          <div class="section-label" style="margin-bottom:10px;">Evaluation During Program</div>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">Two formal reviews, each requiring feedback from ≥3 people (peers + direct manager/mentor) plus a mentor–intern discussion.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="background:var(--light);border-radius:8px;padding:12px;">
+              <div style="font-size:.7rem;font-weight:800;color:var(--navy);margin-bottom:4px;">MID Evaluation</div>
+              <p style="font-size:.75rem;color:var(--muted);">Growth check-in, feedback to finish strong. Mentors receive a guide on how to evaluate.</p>
+            </div>
+            <div style="background:var(--light);border-radius:8px;padding:12px;">
+              <div style="font-size:.7rem;font-weight:800;color:var(--navy);margin-bottom:4px;">FINAL Evaluation</div>
+              <p style="font-size:.75rem;color:var(--muted);">Measures progress since MID against the same criteria. Accompanied by the Final Presentation.</p>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding:12px 14px;background:#EBF3FF;border-radius:8px;font-size:.8rem;color:var(--text);">
+            <strong>Final Presentation</strong> — 30 min: 10-min presentation/demo + 10-min Q&amp;A + 10-min closed discussion on performance and full-time potential. Intern chooses their own topic and should signal conversion interest during it.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- FOOTER                                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <strong>The Launch Box</strong> · Recruiting Playbook for Echelon Risk + Cyber · v2.1 · July 2026<br>
+    Confidential — Prepared exclusively for Echelon Risk + Cyber<br>
+    <span style="margin-top:8px;display:inline-block;">Questions? Contact your TLB TA Lead · <a href="mailto:careers@echeloncyber.com" style="color:rgba(255,255,255,.5);">careers@echeloncyber.com</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
