@@ -508,6 +508,46 @@
   @media(max-width:640px){.sourcing-tier{grid-template-columns:1fr}.tier-num{font-size:1.8rem}.competitor-grid{grid-template-columns:1fr}}
 
   /* ── SALARY & COMPENSATION ── */
+
+  /* ── EDIT MODE ── */
+  .edit-mode [contenteditable] {
+    outline: 2px dashed rgba(203,242,0,.5); border-radius: 3px; cursor: text; min-height: 1em;
+  }
+  .edit-mode [contenteditable]:hover { outline-color: var(--acid); background: rgba(203,242,0,.05); }
+  .edit-mode [contenteditable]:focus { outline: 2px solid var(--acid); background: rgba(203,242,0,.08); }
+  #edit-bar {
+    display: none; position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+    background: var(--navy); border: 1px solid var(--acid); border-radius: 12px;
+    padding: 12px 16px; gap: 12px; align-items: center;
+    box-shadow: 0 8px 32px rgba(11,17,115,.5);
+  }
+  #edit-bar button { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 700; font-size: .8rem; cursor: pointer; }
+  #edit-bar .pub-btn { background: var(--acid); color: var(--navy); }
+  #edit-bar .pub-btn:hover { background: var(--acid2); }
+  #edit-bar .cancel-btn { background: rgba(255,255,255,.1); color: white; }
+  #edit-bar .cancel-btn:hover { background: rgba(255,255,255,.2); }
+  #publish-status { color: rgba(255,255,255,.7); font-size: .78rem; max-width: 240px; }
+  #admin-panel {
+    display: none; position: fixed; bottom: 70px; right: 24px; z-index: 1000;
+    background: var(--navy2); border: 1px solid rgba(203,242,0,.3); border-radius: 12px;
+    padding: 16px; flex-direction: column; gap: 8px;
+    box-shadow: 0 8px 32px rgba(11,17,115,.5); min-width: 200px;
+  }
+  #admin-panel h4 { color: var(--acid); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  #admin-panel button { padding: 8px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: .8rem; cursor: pointer; text-align: left; width: 100%; }
+  #admin-panel .edit-btn { background: var(--acid); color: var(--navy); }
+  #admin-panel .token-btn { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); margin-top: 2px; }
+  #admin-panel .token-btn:hover { background: rgba(255,255,255,.15); }
+  #admin-panel .close-btn { background: transparent; color: rgba(255,255,255,.35); font-size: .72rem; }
+  #admin-trigger {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: rgba(11,17,115,.7); color: rgba(255,255,255,.25);
+    border: 1px solid rgba(255,255,255,.08); border-radius: 8px;
+    padding: 5px 10px; font-size: .68rem; cursor: pointer; backdrop-filter: blur(4px);
+    transition: color .15s, border-color .15s;
+  }
+  #admin-trigger:hover { color: var(--acid); border-color: rgba(203,242,0,.4); }
+  @media print { #admin-trigger, #admin-panel, #edit-bar { display: none !important; } }
 </style>
 </head>
 <body>
@@ -1576,6 +1616,133 @@ async function downloadDocx() {
   link.href = url; link.download = 'Echelon_Recruiting_Playbook_v3.docx';
   document.body.appendChild(link); link.click();
   document.body.removeChild(link); URL.revokeObjectURL(url);
+}
+</script>
+
+<!-- ── EDIT MODE UI ── -->
+<button id="admin-trigger" onclick="toggleAdminPanel()" title="Admin">✎ Edit</button>
+
+<div id="admin-panel">
+  <h4>⚙ Admin</h4>
+  <button class="edit-btn" onclick="enterEditMode()">✎ Enter Edit Mode</button>
+  <button class="token-btn" onclick="setGHToken()">🔑 Set GitHub Token</button>
+  <button class="token-btn" onclick="clearGHToken()">✕ Clear Token</button>
+  <button class="close-btn" onclick="toggleAdminPanel()">Close</button>
+</div>
+
+<div id="edit-bar">
+  <span id="publish-status">Click any text to edit it</span>
+  <button class="pub-btn" onclick="publishToGitHub()">⬆ Publish</button>
+  <button class="cancel-btn" onclick="exitEditMode()">Cancel</button>
+</div>
+
+<script>
+const GH_REPO = 'kwright-lilbit/echelon-recruiting-playbook';
+const GH_FILE = 'Echelon_Recruiting_Playbook.html';
+let _adminOpen = false;
+
+function toggleAdminPanel() {
+  _adminOpen = !_adminOpen;
+  document.getElementById('admin-panel').style.display = _adminOpen ? 'flex' : 'none';
+}
+
+function enterEditMode() {
+  document.body.classList.add('edit-mode');
+  document.querySelectorAll('section p, section h2, section h3, section h4, section li').forEach(function(el) {
+    if (el.closest('.cl-grid') || el.querySelector('input') || el.querySelector('button')) return;
+    el.setAttribute('contenteditable', 'true');
+  });
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('admin-trigger').style.display = 'none';
+  document.getElementById('edit-bar').style.display = 'flex';
+  _adminOpen = false;
+}
+
+function exitEditMode() {
+  document.body.classList.remove('edit-mode');
+  document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+  document.getElementById('edit-bar').style.display = 'none';
+  document.getElementById('admin-trigger').style.display = '';
+  var s = document.getElementById('publish-status');
+  s.textContent = 'Click any text to edit it';
+  s.style.color = '';
+}
+
+function setGHToken() {
+  var t = prompt('Paste your GitHub Personal Access Token (fine-grained, contents: read+write for this repo).\nIt will be saved in your browser only — never in the file.');
+  if (t && t.trim()) {
+    localStorage.setItem('echelon_gh_token', t.trim());
+    alert('Token saved.');
+  }
+}
+
+function clearGHToken() {
+  localStorage.removeItem('echelon_gh_token');
+  alert('Token cleared.');
+}
+
+async function publishToGitHub() {
+  var token = localStorage.getItem('echelon_gh_token');
+  if (!token) {
+    setGHToken();
+    token = localStorage.getItem('echelon_gh_token');
+    if (!token) return;
+  }
+  var statusEl = document.getElementById('publish-status');
+  statusEl.style.color = 'rgba(255,255,255,.7)';
+  statusEl.textContent = 'Getting file info…';
+  try {
+    // Get current SHA
+    var infoResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!infoResp.ok) throw new Error('Auth failed (' + infoResp.status + ') — check your token');
+    var info = await infoResp.json();
+
+    statusEl.textContent = 'Serializing page…';
+
+    // Clone and clean
+    var clone = document.documentElement.cloneNode(true);
+    clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+    clone.querySelectorAll('#edit-bar, #admin-panel, #admin-trigger').forEach(function(el) { el.remove(); });
+    clone.body.classList.remove('edit-mode');
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+
+    // UTF-8 → base64
+    var bytes = new TextEncoder().encode(html);
+    var binary = '';
+    var CHUNK = 8192;
+    for (var i = 0; i < bytes.length; i += CHUNK) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+    }
+    var encoded = btoa(binary);
+
+    statusEl.textContent = 'Pushing to GitHub…';
+
+    var commitResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Update playbook content',
+        content: encoded,
+        sha: info.sha
+      })
+    });
+    if (!commitResp.ok) {
+      var err = await commitResp.json();
+      throw new Error(err.message || 'Commit failed (' + commitResp.status + ')');
+    }
+    statusEl.textContent = '✓ Published! Netlify redeploys in ~30 sec.';
+    statusEl.style.color = '#22C55E';
+    exitEditMode();
+  } catch(err) {
+    statusEl.textContent = '✗ ' + err.message;
+    statusEl.style.color = '#E84545';
+  }
 }
 </script>
 </body>
