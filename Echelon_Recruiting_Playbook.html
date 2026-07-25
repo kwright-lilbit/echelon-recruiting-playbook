@@ -1648,8 +1648,24 @@ function toggleAdminPanel() {
 
 function enterEditMode() {
   document.body.classList.add('edit-mode');
-  document.querySelectorAll('section p, section h2, section h3, section h4, section li').forEach(function(el) {
-    if (el.closest('.cl-grid') || el.querySelector('input') || el.querySelector('button')) return;
+  // General text elements
+  var selector = [
+    'section p', 'section h2', 'section h3', 'section h4', 'section li',
+    'section td', 'section th',
+    'section .dm-chip', 'section .auth-chip',
+    'section .tactic-item', 'section .tier-body', 'section .tier-title', 'section .tier-sub',
+    'section .sla-card-metric', 'section .sla-card-label', 'section .sla-card-owner',
+    'section .sla-banner-title', 'section .sla-banner-sub',
+    'section .metric-val', 'section .metric-label', 'section .metric-owner',
+    'section .guardrail-card h4', 'section .guardrail-card p',
+    'section .career-card h4', 'section .career-card p', 'section .career-card .range',
+    'section .screen-card h4', 'section .screen-card p',
+    'section .stage-body h3', 'section .stage-body ul li',
+    'section .section-intro', 'section .hero-badge',
+    '.cl-label'
+  ].join(', ');
+  document.querySelectorAll(selector).forEach(function(el) {
+    if (el.querySelector('input') || el.querySelector('button') || el.querySelector('select')) return;
     el.setAttribute('contenteditable', 'true');
   });
   document.getElementById('admin-panel').style.display = 'none';
